@@ -486,6 +486,9 @@ const CONFIG = {
   /* ── 13. IMÁGENES ───────────────────────────────────── */
   /* portada: pon 1, 2, 3 o 4 URLs. El grid se adapta solo. */
   /* Con imagen real: URL completa. Sin imagen: string vacío o elimina el elemento. */
+  /* imgs_prefix: prefijo para construir rutas automáticamente (ej. "TCAE" → fotos/TCAE_p1_portada.jpg) */
+  imgs_prefix: "TCAE",
+
   imgs: {
     /* ═══════════════════════════════════════════════════════
        CONVENCIÓN DE SLOTS — ley para todos los grados:
@@ -497,46 +500,46 @@ const CONFIG = {
     ═══════════════════════════════════════════════════════ */
 
     /* P1 — PORTADA */
-    p1_portada: [ "fotos/p1_portada.jpg" ],
+    p1_portada: [ "p1_portada.jpg" ],
     /* Array: con 1 foto → hero full bleed. Hasta 4 → grid 2×2. */
 
     /* P2 — HOOK */
-    p2_hero:   "fotos/p2_hero.png",
-    p2_mini:   "fotos/p2_mini.jpg",
-    p2_foto2:  "fotos/p2_foto2.png",
+    p2_hero:   "p2_hero.png",
+    p2_mini:   "p2_mini.jpg",
+    p2_foto2:  "p2_foto2.png",
 
     /* P5 — SECTOR */
-    p5_foto:    "fotos/p5_foto.png",
+    p5_foto:    "p5_foto.png",
 
     /* P7 / P7d — IMAGEN APAISADA INFERIOR DE SALES CON VENTAJA */
-    p7_sales1_foto: "fotos/p7_sales1_foto.webp",   /* P7  — bajo cartela CFC */
-    p7_sales2_foto: "fotos/p7_sales2_foto.webp",   /* P7d — bajo cartela 2ª ventaja (software específico del grado) */
+    p7_sales1_foto: "p7_sales1_foto.webp",   /* P7  — bajo cartela CFC */
+    p7_sales2_foto: "p7_sales2_foto.webp",   /* P7d — bajo cartela 2ª ventaja (software específico del grado) */
 
-    p5_salida1: "fotos/p5_salida1.jpg",
-    p5_salida2: "fotos/p5_salida2.png",
-    p5_salida3: "fotos/p5_salida3.png",
+    p5_salida1: "p5_salida1.jpg",
+    p5_salida2: "p5_salida2.png",
+    p5_salida3: "p5_salida3.png",
 
     /* P6b — PRÁCTICAS FCT */
-    p6b_foto:  "fotos/p6b_foto.png",
+    p6b_foto:  "p6b_foto.png",
 
     /* P8 — METODOLOGÍA */
-    p8_foto:   "fotos/p8_foto.png",
+    p8_foto:   "p8_foto.png",
 
     /* P9b — REQUISITOS DE ACCESO */
-    p9b_foto:  "fotos/p9b_foto.png",
-    p9b_foto2: "fotos/p9b_foto2.jpg",
+    p9b_foto:  "p9b_foto.png",
+    p9b_foto2: "p9b_foto2.jpg",
 
     /* P3 — imagen inferior con datos sobreimpresos */
-    p3_foto:   "fotos/p3_foto.jpg",
+    p3_foto:   "p3_foto.jpg",
 
-    /* P7 — LOGOS SALES CON VENTAJA (slot → archivo en fotos/) */
-    p7_logo1_1: "fotos/p7_logo1_1.png",  /* renombra logo-cfc.png → p7_logo1_1.png */
-    p7_logo1_2: "fotos/p7_logo1_2.png",  /* segundo logo de la cartela CFC (acreditadora) */
-    p7_logo2_1: "fotos/p7_logo2_1.svg",
-    p7_logo3_1: "fotos/p7_logo3_1.svg",   /* renombra logo-gesden.svg → p7_logo3_1.svg */
+    /* P7 — LOGOS SALES CON VENTAJA (slot → archivo en logos/) */
+    p7_logo1_1: "logos/cfc.png",  /* CFC */
+    p7_logo1_2: "logos/acreditadora.png",  /* segundo logo de la cartela CFC (acreditadora) */
+    p7_logo2_1: "logos/logo_ventaja2.svg",
+    p7_logo3_1: "logos/gesden.svg",   /* GESDEN */
 
     /* P7b — especialización geriatría */
-    p7b_foto: "fotos/p7b_foto.png"
+    p7b_foto: "p7b_foto.png"
   }
 };
 </script>
@@ -3950,7 +3953,9 @@ function setBgImage(elId, src) {
 
   /* Imagen de fondo full bleed — usa el grid existente */
   (function(){
-    const portadaImgs = (C.imgs.p1_portada || C.imgs.portada || []).filter(x => x && x.trim() !== '');
+    const portadaImgs = (C.imgs.p1_portada || C.imgs.portada || [])
+      .filter(x => x && x.trim() !== '')
+      .map(applyPrefix);   /* ← aplicar prefijo a cada ruta del array */
     const n = portadaImgs.length;
     const grid = $('p1-grid');
     if (!grid) return;
@@ -4073,6 +4078,8 @@ function setBgImage(elId, src) {
   }
 
   function renderImgOrPh(src, alt, imgClass, phClass, phColor) {
+    /* ── aplicar prefijo si existe y la ruta no es explícita ── */
+    src = applyPrefix(src);
     const isBlank = !src || src.trim() === '' || src.indexOf('FOTO_') === 0;
     /* overlay visible only when blank; hidden (opacity:0) when real image loads */
     const overlayOpacity = isBlank ? '1' : '0';
@@ -4095,10 +4102,23 @@ function setBgImage(elId, src) {
       '</div></div>';
   }
 
+  /* ── applyPrefix: helper centralizado para aplicar imgs_prefix a una ruta ──
+     Si la ruta ya empieza con fotos/, logos/ o data:, se devuelve tal cual.
+     En otro caso se construye fotos/{prefix}_{ruta}. */
+  function applyPrefix(src) {
+    if (!src) return src;
+    var prefix = C.imgs_prefix || '';
+    if (!prefix) return src;
+    if (src.startsWith('fotos/') || src.startsWith('logos/') || src.startsWith('data:')) return src;
+    return 'fotos/' + prefix + '_' + src;
+  }
+
   /* ── renderBgImg: imagen de fondo en wrap con overlay + placeholder ── */
   function renderBgImg(wrapId, src, alt) {
     var wrap = $(wrapId);
     if (!wrap) return;
+    /* ── aplicar prefijo si existe y la ruta no es explícita ── */
+    src = applyPrefix(src);
     var isBlank = !src || src.trim() === '' || src.indexOf('FOTO_') === 0;
     var html = '';
     if (!isBlank) {
@@ -4238,7 +4258,7 @@ function setBgImage(elId, src) {
   (function(){
     var wrap = document.getElementById('p3-foto1-wrap');
     if (!wrap) return;
-    var src = C.imgs && C.imgs.p3_foto;
+    var src = applyPrefix(C.imgs && C.imgs.p3_foto);
     if (src && src.indexOf('FOTO_') !== 0) {
       wrap.innerHTML = '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;object-position:left center;" alt="Formación sanitaria">';
     }
@@ -4294,7 +4314,7 @@ function setBgImage(elId, src) {
 
   s('p5-salidas', C.sector_salidas.map(function(sal, salIdx) {
     /* Slot pX_salidaN del imgs — sal.img como fallback legacy */
-    var salImgSrc = C.imgs['p5_salida' + (salIdx + 1)] || sal.img || '';
+    var salImgSrc = applyPrefix(C.imgs['p5_salida' + (salIdx + 1)] || sal.img || '');
     const isBlankSal = !salImgSrc || salImgSrc.trim() === '' || salImgSrc.indexOf('FOTO_') === 0;
     const foto = '<div class="salida-foto" style="position:relative;height:38mm;background:' + sal.ph_color + ';">' +
       (!isBlankSal ? '<img src="' + salImgSrc + '" alt="' + sal.nombre + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.opacity=0;var ns=this.nextElementSibling;if(ns)ns.style.opacity=1" onload="var ns=this.nextElementSibling;if(ns)ns.style.opacity=0">' : '') +
