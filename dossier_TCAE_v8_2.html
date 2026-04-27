@@ -533,10 +533,9 @@ const CONFIG = {
     p3_foto:   "p3_foto.jpg",
 
     /* P7 — LOGOS SALES CON VENTAJA (slot → archivo en logos/) */
-    p7_logo1_1: "logos/cfc.png",  /* CFC */
-    p7_logo1_2: "logos/acreditadora.png",  /* segundo logo de la cartela CFC (acreditadora) */
-    p7_logo2_1: "logos/logo_ventaja2.svg",
-    p7_logo3_1: "logos/gesden.svg",   /* GESDEN */
+    p7_logo1_1: "logos/cfc.png",          /* CFC */
+    p7_logo1_2: "logos/saludmadrid.png",  /* SaludMadrid (cartela CFC) */
+    p7_logo3_1: "logos/gesden.svg",       /* GESDEN */
 
     /* P7b — especialización geriatría */
     p7b_foto: "p7b_foto.png"
@@ -4050,7 +4049,7 @@ function setBgImage(elId, src) {
      que el equipo de producción entregue fotos en .jpg o .png
      indistintamente sin que haya que actualizar el CONFIG.
      Los SVG no entran en el fallback (son un formato aparte). */
-  const IMG_EXTENSIONS = ['.jpg', '.png', '.jpeg', '.webp'];
+  const IMG_EXTENSIONS = ['.jpg', '.png', '.jpeg', '.webp', '.svg'];
 
   /* Genera el atributo onerror para una imagen con fallback de extensiones.
      onFinalFail: código JS ejecutado cuando ninguna extensión funciona. */
@@ -4063,7 +4062,7 @@ function setBgImage(elId, src) {
     var base = src.substring(0, src.length - m[0].length);
     /* Lista de extensiones a probar, sin la actual, en orden */
     var fallbacks = IMG_EXTENSIONS.filter(function(e) { return e !== currentExt; });
-    /* Si la extensión no es una conocida (ej. SVG), no se aplica fallback */
+    /* Si la extensión actual no es ninguna de las conocidas, no se aplica fallback */
     if (IMG_EXTENSIONS.indexOf(currentExt) === -1) return onFinalFail || '';
     /* Construir cadena de onerror encadenada.
        En cada intento, al fallar se cambia el src a la siguiente extensión.

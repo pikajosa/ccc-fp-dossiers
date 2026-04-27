@@ -343,7 +343,9 @@ const CONFIG = {
       badge: "Preparación oficial",
       tipo: "incluido",
       logos: [
-        { src: "p7_logo1_1", alt: "Logo Microsoft" }
+        { src: "p7_logo1_1", alt: "Logo Microsoft" },
+        { src: "p7_logo1_2", alt: "Logo Power BI" },
+        { src: "p7_logo1_3", alt: "Logo Excel" }
       ],
       nombre: "Cursos de Certificación Power BI + Excel Avanzado",
       subtitulo: "Domina las dos herramientas más demandadas en departamentos financieros",
@@ -592,10 +594,10 @@ const CONFIG = {
     p3_foto:   "p3_foto.jpg",
 
     /* P7 — LOGOS SALES CON VENTAJA (slot → archivo en logos/) */
-    p7_logo1_1: "logos/cfc.png",  /* CFC */
-    p7_logo1_2: "logos/acreditadora.png",  /* segundo logo de la cartela CFC (acreditadora) */
-    p7_logo2_1: "logos/logo_ventaja2.svg",
-    p7_logo3_1: "logos/gesden.svg",   /* GESDEN */
+    /* P7 — VENTAJA ÚNICA (Power BI + Excel) — 3 logos */
+    p7_logo1_1: "logos/microsoft.png",   /* Logo Microsoft */
+    p7_logo1_2: "logos/powerbi.png",     /* Logo Power BI */
+    p7_logo1_3: "logos/excel.jpeg",      /* Logo Excel */
 
     /* P7b / P7b2 / P7b3 — FORMACIÓN OPCIONAL
        Cada opcional tiene foto apaisada inferior (foto_slot) y
@@ -606,7 +608,7 @@ const CONFIG = {
     p7b2_foto: "p7b2_foto.jpg",  /* TSU Economía UCAM */
     p7b2_logo: "logos/ucam.png",  /* Logo UCAM */
     p7b3_foto: "p7b3_foto.jpg",  /* TSU Marketing UCAM */
-    p7b3_logo: "logos/ucam2.png"   /* Logo UCAM */
+    p7b3_logo: "logos/ucam.png"    /* Logo UCAM (reutiliza el mismo archivo) */
   }
 };
 </script>
@@ -4099,7 +4101,7 @@ function setBgImage(elId, src) {
      que el equipo de producción entregue fotos en .jpg o .png
      indistintamente sin que haya que actualizar el CONFIG.
      Los SVG no entran en el fallback (son un formato aparte). */
-  const IMG_EXTENSIONS = ['.jpg', '.png', '.jpeg', '.webp'];
+  const IMG_EXTENSIONS = ['.jpg', '.png', '.jpeg', '.webp', '.svg'];
 
   /* Genera el atributo onerror para una imagen con fallback de extensiones.
      onFinalFail: código JS ejecutado cuando ninguna extensión funciona. */
