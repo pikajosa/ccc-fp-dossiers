@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dossier TCAE Online · CCC · 2026</title>
+<title>Dossier AFI Presencial Madrid · CCC · 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -19,21 +19,22 @@
   No toques nada más. El HTML se autopinta solo.
   ═══════════════════════════════════════════════════════════ -->
 <script>
-
 const CONFIG = {
 
   /* ══════════════════════════════════════════════════════════
      SELLO DE VERSIÓN
      ══════════════════════════════════════════════════════════
-     Archivo:     dossier_TCAE_v8_2.html
-     Grado:       TCAE · Técnico en Cuidados Auxiliares de Enfermería
-     Versión:     8.2 (arquitectura logo en opcionales, coherente con AFI v1.2)
-     Fecha:       2026-04-24
-     Estado:      Activa. Incorpora sistema de logo por opcional
-                  (CSS .opcional-logo-wrap + campos logo_slot/logo_caption).
+     Archivo:     dossier_AFI_v1_0.html
+     Grado:       AFI · Técnico Superior en Administración y Finanzas
+     Versión:     1.0 (PMV — clone de TCAE v8.1)
+     Fecha:       2026-04-23
+     Estado:      Primer clone. Misma arquitectura que TCAE v8.1,
+                  solo cambian los textos y datos específicos de AFI.
+                  Cualquier cambio arquitectónico debe aplicarse SIEMPRE
+                  a los dos archivos simultáneamente.
      ══════════════════════════════════════════════════════════ */
 
-  version: "8.2",
+  version: "1.0",
 
   /* ══════════════════════════════════════════════════════════
      ORDEN DE PÁGINAS
@@ -42,18 +43,17 @@ const CONFIG = {
   ══════════════════════════════════════════════════════════ */
   pages: [
     'p1','p2','p3','p4','p5',
-    'p6',               /* temario — primer semestre (obligatoria)        */
-    'p6_2',             /* temario — semestres 2-N (si caben todos)       */
-    /* 'p6_3',             temario — tercera página opcional. Activar si
-                             el temario no cabe en 2 páginas (grados 4-5
-                             semestres). Reparto por campo `page` en cada
-                             semestre del array `modulos`.                  */
+    'p6',               /* temario — primer curso (obligatoria) */
+    'p6_2',             /* temario — segundo curso */
+    /* 'p6_3',             temario — tercera página no usada en AFI (cabe en 2) */
     'p6b',              /* prácticas FCT */
-    'p7',               /* sales con ventaja 1 — cartela 1 + imagen inferior */
-    'p7d',              /* sales con + ventaja 2 — cartela 2 + imagen inferior */
+    'p7',               /* sales con ventaja: Power BI + Excel */
+    /* 'p7d',              no usada en AFI (solo 1 ventaja) */
     'p7c',              /* impulsa tu perfil (incluido transversal) */
-    'p7b',              /* especialización geriatría (FORMACIÓN OPCIONAL) */
-    'p8',               /* metodología */
+    'p7b',              /* opcional 1 — Marketing Digital y SEO */
+    'p7b2',             /* opcional 2 — TSU Economía UCAM */
+    'p7b3',             /* opcional 3 — TSU Marketing UCAM */
+    'p8',               /* modalidad presencial Madrid */
     'p9b',              /* requisitos de acceso */
     'p10b',             /* becas y ayudas */
     'p9',               /* ¿por qué CCC? */
@@ -61,15 +61,15 @@ const CONFIG = {
   ],
 
   /* ── 1. IDENTIFICACIÓN ──────────────────────────────── */
-  curso_nombre:    "TÉCNICO EN\nCUIDADOS AUXILIARES\nDE ENFERMERÍA",
-  curso_acronimo:  "TCAE",
-  curso_short:     "TCAE · Cuidados Auxiliares de Enfermería",
-  curso_tipo:      "<br>Grado Medio de Formación Profesional<br><br/>\n\n<b>La FP Sanitaria con experiencia real desde el primer día</b>",
+  curso_nombre:    "TÉCNICO SUPERIOR EN\nADMINISTRACIÓN\nY FINANZAS",
+  curso_acronimo:  "AFI",
+  curso_short:     "AFI · Administración y Finanzas",
+  curso_tipo:      "<br>Grado Superior de Formación Profesional<br><br/>\n\n<b>La FP de Empresa y Negocio para trabajar en administración y finanzas</b>",
   anno:            "2026",
-  modalidad:       "ONLINE",         /* "ONLINE" | "PRESENCIAL MADRID" */
-  modalidad_label: "Modalidad Online",
-  duracion:        "1.400 horas · 1,5 años",
-  duracion_sub:    "1,5 años",
+  modalidad:       "PRESENCIAL MADRID",         /* "ONLINE" | "PRESENCIAL MADRID" */
+  modalidad_label: "Modalidad Presencial",
+  duracion:        "2.000 horas · 2 años",
+  duracion_sub:    "2 años",
   fecha_inicio:    "Septiembre 2026",
 
   /* ── 2. COLORES ─────────────────────────────────────── */
@@ -84,27 +84,27 @@ const CONFIG = {
   target: "alumno",  /* "alumno" | "padre" — cambia el tono del copy */
 
   /* ── 4. SECCIÓN 2 — HOOK ────────────────────────────── */
-  hook_h2:   "¿Qué hace un Técnico/a en Cuidados Auxiliares de Enfermería?",
-  p6_intro: "Plan de estudios oficial del ciclo formativo de TCAE:",
+  hook_h2:   "¿Qué hace un Técnico/a Superior en Administración y Finanzas?",
+  p6_intro: "Plan de estudios oficial del ciclo formativo de AFI:",
 
   /* ── TEXTOS DE SECCIÓN ───────────────────────────────────
      Mueve aquí los textos que varían por grado.
      Usa null para mantener el valor por defecto del HTML.
   ──────────────────────────────────────────────────────── */
   /* ── P1 PORTADA — card de propuesta de valor ───────── */
-  p1_logo_label:   "TCAE",   /* etiqueta junto al logo en la portada */
-  p1_card_label:   "Grado Medio · Modalidad Online",
-  p1_card_titulo:  "Técnico en Cuidados Auxiliares de Enfermería",
-  p1_card_claim:   "La FP sanitaria con experiencia real desde el primer día",
-  p1_card_meta:    "📅 Septiembre 2026 · 💻 Online · ⏱ 1.400h · 1,5 años",
+  p1_logo_label:   "AFI",   /* etiqueta junto al logo en la portada */
+  p1_card_label:   "Grado Superior · Presencial Madrid",
+  p1_card_titulo:  "Técnico Superior en Administración y Finanzas",
+  p1_card_claim:   "La FP de Empresa y Negocio para trabajar en administración y finanzas",
+  p1_card_meta:    "📅 Septiembre 2026 · 🏛️ Presencial Madrid · ⏱ 2.000h · 2 años",
   p1_card_bullets: [
-    { icon: "🏥", text: "Prácticas garantizadas en hospitales y clínicas colaboradoras" },
-    { icon: "📋", text: "CFC incluidos para sumar puntos en bolsa pública de empleo" },
-    { icon: "✅", text: "Procedimientos reales del entorno sanitario desde el primer día" }
+    { icon: "🏢", text: "500 horas de prácticas reales en empresas colaboradoras" },
+    { icon: "📊", text: "Preparación oficial Power BI + Excel Avanzado incluida" },
+    { icon: "✅", text: "Simulación empresarial en aulas reales desde el primer día" }
   ],
 
-  p4_title:        "Una titulación <span>oficial</span> para trabajar en sanidad",
-  p4_intro:        "Al superar todos los módulos del ciclo obtienes el Título Oficial de Técnico en Cuidados Auxiliares de Enfermería, expedido por el Ministerio de Educación. Un título de Grado Medio con validez en toda España y habilitante para ejercer profesionalmente.",
+  p4_title:        "Una titulación <span>oficial</span> para trabajar en empresa",
+  p4_intro:        "Al superar todos los módulos del ciclo obtienes el Título Oficial de Técnico Superior en Administración y Finanzas, expedido por el Ministerio de Educación. Un título de Grado Superior con validez en toda España y reconocido en la Unión Europea.",
   p4_label_titulo: "Título oficial que obtienes",
 
   p4_logos: [
@@ -112,11 +112,11 @@ const CONFIG = {
     { slot: "logo_ccc_svg",    alt: "CCC Formación Profesional",    fallback: null,  h: "22.4mm", imgPad: "4mm" },
     { slot: "logo_cam",        alt: "Comunidad de Madrid",          fallback: "Comunidad de Madrid",          h: "22.4mm" }
   ],
-  p4_microtexto: "Formación homologada que te permite ejercer profesionalmente desde el primer día.",
+  p4_microtexto: "Formación homologada que te abre la puerta a empresas, asesorías y departamentos financieros.",
   p4_codigos:    "Centro autorizado por la Comunidad de Madrid · Códigos de autorización: 28080281 · 28081017",
 
-  p5_title:        "Fórmate en un sector <span>que nunca para</span>",
-  p5_intro:        "El envejecimiento de la población, la expansión de la dependencia y la demanda creciente de cuidados hacen del TCAE una de las salidas con mayor empleabilidad del mercado.",
+  p5_title:        "Un sector <span>estable y demandado</span> por todas las empresas",
+  p5_intro:        "La gestión administrativa y financiera es esencial en cualquier empresa, lo que convierte el perfil AFI en uno de los más estables y con mejor proyección del mercado laboral.",
   p5_salidas_title:"Principales salidas profesionales",
 
   /* ── FORMACIÓN OPCIONAL (p7b / p7b2 / p7b3) ────────────
@@ -127,120 +127,162 @@ const CONFIG = {
      OPCIÓN 1, OPCIÓN 2, OPCIÓN 3 en el sec-label. */
   opcionales: [
     {
-      titulo_h1:      "Especialización en",
-      titulo_h1_span: "Enfermería Geriátrica",
-      subtitulo:      "Amplía tu perfil en uno de los sectores con mayor demanda del ámbito sanitario",
-      intro:          "El envejecimiento de la población ha convertido la atención geriátrica en una de las áreas con mayor crecimiento en sanidad. Esta especialización te permitirá desarrollar competencias específicas para trabajar con pacientes mayores.",
+      titulo_h1:      "Posicionamiento Web",
+      titulo_h1_span: "y Marketing Digital",
+      subtitulo:      "Impulsa tu perfil con una de las áreas con mayor demanda en empresas, agencias y consultoras",
+      intro:          "Formación complementaria 100% online de 6 meses, compatible con tu FP. Aprende a impulsar la visibilidad de cualquier proyecto, atraer clientes y generar oportunidades reales en un entorno cada vez más digital y competitivo.",
       temario_titulo: "Contenido de la especialización",
       temario: [
-        "Gerontología y geriatría", "Valoración geriátrica",
-        "El envejecimiento", "Cuidados en el anciano",
-        "Socialización del anciano", "Patologías geriátricas",
-        "Alteraciones fisiológicas", "Farmacología en el anciano",
-        "Alteraciones psicoafectivas", "Ley de dependencia",
-        "Proceso quirúrgico en el anciano", "Institucionalización"
+        "Introducción al marketing digital",
+        "Fundamentos del SEO",
+        "SEO on-page",
+        "SEO off-page y linkbuilding",
+        "SEM y publicidad en buscadores",
+        "Analítica web y métricas",
+        "Estrategia de contenidos",
+        "Herramientas digitales y optimización"
       ],
-      nota:           "Especialización <strong>opcional</strong> no incluida en la matrícula base. Consulta disponibilidad y coste con tu asesora.",
+      nota:           "Especialización <strong>opcional</strong> de 6 meses, modalidad online. No incluida en la matrícula base. Consulta disponibilidad y coste con tu asesora.",
       foto_slot:      "p7b_foto",
-      pre_foto:       "Uno de los sectores con mayor crecimiento en España."
+      logo_slot:      "p7b_logo",
+      logo_caption:   "Preparación certificación",
+      pre_foto:       "Uno de los ámbitos con mayor demanda en empresas, agencias y consultoras."
+    },
+    {
+      titulo_h1:      "TSU en",
+      titulo_h1_span: "Economía",
+      subtitulo:      "Técnico Superior Universitario · certificación UCAM de 6 meses online",
+      intro:          "Aprende a analizar el comportamiento de los agentes económicos, interpretar datos y comprender los mecanismos de los mercados y finanzas globales. Formación universitaria avalada por la Universidad Católica de Murcia (UCAM).",
+      temario_titulo: "Ejes formativos del TSU",
+      temario: [
+        "Fundamentos de economía",
+        "Microeconomía aplicada",
+        "Macroeconomía y política económica",
+        "Análisis de mercados financieros",
+        "Econometría básica",
+        "Interpretación de datos económicos"
+      ],
+      nota:           "Técnico Superior Universitario de UCAM, 6 meses en modalidad online. <strong>Opcional</strong> no incluido en la matrícula base. Acerca tu perfil al ámbito universitario.",
+      foto_slot:      "p7b2_foto",
+      logo_slot:      "p7b2_logo",
+      logo_caption:   "Universidad acreditadora",
+      pre_foto:       "Formación universitaria reconocida nacional e internacionalmente."
+    },
+    {
+      titulo_h1:      "TSU en",
+      titulo_h1_span: "Marketing",
+      subtitulo:      "Técnico Superior Universitario · certificación UCAM de 6 meses online",
+      intro:          "Aprenderás a analizar mercados, interpretar tendencias, detectar oportunidades y evaluar proyectos para optimizar recursos. Formación universitaria avalada por la Universidad Católica de Murcia (UCAM).",
+      temario_titulo: "Ejes formativos del TSU",
+      temario: [
+        "Análisis de mercados y tendencias",
+        "Estrategia comercial",
+        "Comportamiento del consumidor",
+        "Marketing digital y omnicanal",
+        "Investigación de mercados",
+        "Evaluación de proyectos y recursos"
+      ],
+      nota:           "Técnico Superior Universitario de UCAM, 6 meses en modalidad online. <strong>Opcional</strong> no incluido en la matrícula base. Ideal para completar tu perfil empresarial.",
+      foto_slot:      "p7b3_foto",
+      logo_slot:      "p7b3_logo",
+      logo_caption:   "Universidad acreditadora",
+      pre_foto:       "Formación universitaria enfocada al análisis estratégico del mercado."
     }
-    /* Añade un segundo objeto aquí y 'p7b2' a CONFIG.pages si el grado
-       tiene 2 opcionales. Un tercer objeto activa 'p7b3'. */
   ],
 
-  p8_intro:        "<b>Una formación flexible diseñada para que puedas estudiar, avanzar y terminar el curso sin renunciar a tu día a día.</b><br>Todo lo que incluye tu formación para avanzar con seguridad:",
+  p8_intro:        "<b>Una formación presencial en Madrid diseñada para que experimentes la realidad del trabajo administrativo y financiero desde el primer día.</b><br>Todo lo que incluye tu formación para avanzar con seguridad:",
 
   p9_title:        "¿Por qué <span>CCC?</span>",
-  p9_intro:        "<b>Te formas con un centro con experiencia real preparando profesionales para el sector sanitario.</b><br><br>Más de 85 años formando a los profesionales que mueven España.",
+  p9_intro:        "<b>Te formas con un centro con más de 85 años de experiencia preparando profesionales para la empresa.</b><br><br>Más de 3 millones de alumnos formados desde 1939 y +10.500 empresas colaboradoras.",
   p9_video_pre:    "Escanea con tu móvil",
   p9_video_sub:    "Apunta la cámara al código QR<br>y descubre CCC en vídeo",
-  p9_footer_text:  "<b>Una experiencia formativa pensada para que puedas aprender, terminar y dar el salto al sector sanitario.</b>",
+  p9_footer_text:  "<b>Una experiencia formativa pensada para que puedas aprender, terminar y dar el salto al mundo empresarial.</b>",
 
   /* ── P3 — Durante / Al acabar ──────────────────────── */
   p3_durante: [
-    "Procedimientos propios del entorno sanitario",
-    "Técnicas de higiene, cuidado y atención al paciente",
-    "Preparación de material y apoyo en intervenciones",
-    "Trabajo en equipo con profesionales sanitarios"
+    "Procedimientos administrativos y financieros reales",
+    "Contabilidad, facturación y fiscalidad básica",
+    "Herramientas digitales: Power BI, Excel avanzado",
+    "Trabajo en equipo en entornos empresariales"
   ],
-  p3_durante_intro: "Durante tu formación aprenderás a desenvolverte en entornos sanitarios reales, desarrollando habilidades prácticas desde el primer momento.",
+  p3_durante_intro: "Durante tu formación aprenderás a desenvolverte con criterio en entornos empresariales reales, desarrollando habilidades prácticas desde el primer momento.",
   p3_acabar: [
     "Título oficial válido en toda España",
-    "Experiencia práctica en entornos sanitarios",
-    "Formación complementaria orientada a empleabilidad",
-    "Preparación para trabajar en hospitales, clínicas y centros sociosanitarios"
+    "Experiencia práctica en empresas reales",
+    "Certificación Power BI y Excel Avanzado",
+    "Preparación para departamentos administrativos, contables y financieros"
   ],
-  p3_acabar_intro: "Al acabar tu FP estarás preparad@ para incorporarte al mercado laboral con un perfil completo y adaptado a las necesidades reales del sector.",
+  p3_acabar_intro: "Al acabar tu FP estarás preparad@ para incorporarte al mercado laboral con un perfil completo y adaptado al tejido empresarial.",
 
   hook_propuesta_pre: "¿Cuál es su día a día?",
   hook_propuesta: [
-    { icon:"→", bold:"", rest:"Atención directa al paciente en hospitalización, consultas y urgencias" },
-    { icon:"→", bold:"", rest:"Apoyo en higiene, alimentación y movilización" },
-    { icon:"→", bold:"", rest:"Preparación de material sanitario y asistencia en procedimientos" },
-    { icon:"→", bold:"", rest:"Colaboración con el equipo médico y de enfermería" },
-    { icon:"→", bold:"", rest:"Acompañamiento y cuidado emocional del paciente" }
+    { icon:"→", bold:"", rest:"Gestión administrativa y documental de la empresa" },
+    { icon:"→", bold:"", rest:"Contabilidad, facturación y obligaciones fiscales" },
+    { icon:"→", bold:"", rest:"Análisis financiero y elaboración de informes" },
+    { icon:"→", bold:"", rest:"Gestión de compras, ventas y atención al cliente" },
+    { icon:"→", bold:"", rest:"Apoyo en la toma de decisiones económicas y estratégicas" }
   ],
   hook_final: "",
-  hook_body: `El Técnico en Cuidados Auxiliares de Enfermería (TCAE) es el profesional que acompaña y cuida a los pacientes en su día a día dentro del entorno sanitario.`,
-  hook_body2: `Forma parte del equipo de enfermería y desempeña un papel esencial en hospitales, centros de salud y clínicas, apoyando en la atención directa al paciente y garantizando su bienestar en cada fase del proceso asistencial.`,
+  hook_body: `El Técnico Superior en Administración y Finanzas (AFI) es el profesional que gestiona la actividad administrativa, contable y financiera de cualquier empresa.`,
+  hook_body2: `Organiza procesos, lleva la contabilidad y apoya la toma de decisiones económicas. Un perfil presente en todos los sectores: asesorías, consultoras, departamentos financieros y cualquier empresa que necesite orden administrativo.`,
   hook_tags: [],
   franja_datos: [
-    { label: "Duración",   valor: "1.400 horas · 1,5 años" },
-    { label: "Prácticas",  valor: "400 horas en centros sanitarios" },
-    { label: "Modalidad",  valor: "Online" },
+    { label: "Duración",   valor: "2.000 horas · 2 años" },
+    { label: "Prácticas",  valor: "500 horas en empresas" },
+    { label: "Modalidad",  valor: "Presencial Madrid" },
     { label: "Inicio",     valor: "Septiembre 2026" }
   ],
 
   /* ── 5. OBJETIVOS ───────────────────────────────────── */
   objetivos: [
-    { n:"01", t:"Técnicas de cuidados básicos", d:"Higiene, movilización y atención al paciente encamado o con movilidad reducida" },
-    { n:"02", t:"Asistencia de enfermería", d:"Apoyar al personal de enfermería en intervenciones clínicas bajo supervisión directa" },
-    { n:"03", t:"Primeros auxilios", d:"Aplicar protocolos de atención urgente y soporte vital básico en situaciones de emergencia" },
-    { n:"04", t:"Preparación de material", d:"Manejar y esterilizar instrumental sanitario siguiendo protocolos de seguridad" },
-    { n:"05", t:"Apoyo psicosocial", d:"Proporcionar acompañamiento emocional al paciente y comunicación con el entorno familiar" },
-    { n:"06", t:"Documentación sanitaria", d:"Registrar datos clínicos, gestionar historiales y manejar herramientas administrativas del centro" },
-    { n:"07", t:"FCT en centros reales", d:"Prácticas formativas en hospitales, residencias o clínicas concertadas por CCC" }
+    { n:"01", t:"Gestión administrativa", d:"Organizar y tramitar la documentación jurídica y mercantil de la empresa" },
+    { n:"02", t:"Contabilidad y fiscalidad", d:"Llevar la contabilidad completa y cumplir con las obligaciones tributarias" },
+    { n:"03", t:"Gestión financiera", d:"Analizar la situación económica, elaborar presupuestos y planificar la tesorería" },
+    { n:"04", t:"Ofimática avanzada", d:"Dominio profesional de Excel, Power BI y herramientas digitales empresariales" },
+    { n:"05", t:"Comunicación y atención", d:"Gestionar la comunicación interna y la atención al cliente en entornos empresariales" },
+    { n:"06", t:"Simulación empresarial", d:"Gestionar una empresa virtual integrando todas las áreas funcionales" },
+    { n:"07", t:"FCT en empresas reales", d:"500 horas de prácticas en empresas colaboradoras gestionadas por CCC" }
   ],
 
   /* ── 6. TITULACIÓN ──────────────────────────────────── */
-  titulo_oficial:   "Técnico en Cuidados Auxiliares de Enfermería",
+  titulo_oficial:   "Técnico Superior en Administración y Finanzas",
   titulo_organismo: "Ministerio de Educación y FP",
-  titulo_nivel:     "Grado Medio FP · Nivel 2 EQF",
+  titulo_nivel:     "Grado Superior FP · Nivel 3 EQF",
   titulo_ue:        "Válido en toda la Unión Europea",
-  titulo_body: `Al superar todos los módulos del ciclo obtienes el <strong>Título Oficial de Técnico en Cuidados Auxiliares de Enfermería</strong>, expedido por el Ministerio de Educación. Un título de nivel Grado Medio con validez nacional, habilitante para ejercer en España y homologable en la Unión Europea.`,
+  titulo_body: `Al superar todos los módulos del ciclo obtienes el <strong>Título Oficial de Técnico Superior en Administración y Finanzas</strong>, expedido por el Ministerio de Educación. Un título de nivel Grado Superior con validez nacional, acceso al mercado laboral empresarial y homologable en la Unión Europea.`,
   titulo_puntos: [
     "Titulación oficial válida en toda España y reconocida en toda la Unión Europea",
     "Centro autorizado por la Comunidad de Madrid",
-    "Formación reglada de Grado Medio de Formación Profesional",
-    "Posibilidad de continuar tu formación con Grados Superiores sanitarios"
+    "Formación reglada de Grado Superior de Formación Profesional",
+    "Acceso directo al mercado laboral o a estudios universitarios relacionados"
   ],
 
   /* ── 7. SECTOR ──────────────────────────────────────── */
   sector_stats: [
-    { num: "+120.000", label: "ofertas anuales para TCAEs en España", src: "SEPE 2025" },
-    { num: "22.000–28.000€", label: "salario bruto anual de entrada en el sector público", src: "INE 2024" },
-    { num: "+25%", label: "crecimiento del sector dependencia y geriatría 2023–2028", src: "IMSERSO" }
+    { num: "+60.000", label: "profesionales trabajando en administración en España", src: "INE 2024" },
+    { num: "90%", label: "tasa de empleabilidad del perfil administrativo-financiero", src: "SEPE 2025" },
+    { num: "+75.000", label: "vacantes anuales en administración y contabilidad", src: "SEPE 2025" }
   ],
   /* 3 salidas principales con foto — sustituir img por URL real */
   sector_salidas: [
     {
-      nombre: "Hospitales y clínicas",
-      desc: "Trabaja en hospitalización, urgencias, quirófano o UCI bajo supervisión de enfermería.",
-      salidas: ["Auxiliar en unidades de hospitalización", "Apoyo en urgencias y emergencias"],
+      nombre: "Asesorías y despachos",
+      desc: "Gestión fiscal, contable y laboral para pymes, autónomos y particulares.",
+      salidas: ["Administrativo/a contable", "Asistente fiscal y tributario"],
       img: null,  /* → C.imgs.p5_salida1 */
       ph_color: "#CC0000"
     },
     {
-      nombre: "Residencias y geriatría",
-      desc: "Sector en pleno crecimiento por el envejecimiento de la población. Alta empleabilidad permanente.",
-      salidas: ["Especialista en cuidados geriátricos", "Atención en residencias y centros asistenciales"],
+      nombre: "Departamentos financieros",
+      desc: "Contabilidad, tesorería, análisis financiero y reporting empresarial.",
+      salidas: ["Analista financiero junior", "Técnico de administración y finanzas"],
       img: null,  /* → C.imgs.p5_salida2 */
       ph_color: "#990000"
     },
     {
-      nombre: "Atención domiciliaria",
-      desc: "Cuidados en el hogar del paciente, uno de los servicios con mayor expansión en España.",
-      salidas: ["Atención primaria y domiciliaria", "Apoyo en programas de salud y prevención"],
+      nombre: "Administración pública y privada",
+      desc: "Bolsas de empleo administrativas y puestos en empresa privada de cualquier sector.",
+      salidas: ["Auxiliar administrativo/a", "Responsable de oficina o back-office"],
       img: null,  /* → C.imgs.p5_salida3 */
       ph_color: "#444444"
     }
@@ -249,29 +291,31 @@ const CONFIG = {
   /* ── 8. MÓDULOS ─────────────────────────────────────── */
   modulos: [
     {
-      curso: "Primer semestre",
+      curso: "Primer curso",
       items: [
-        { n:"01", nombre:"Anatomofisiología y patología básicas", desc:"Funcionamiento del cuerpo humano, sus sistemas y las patologías más comunes del entorno sanitario.", practica:"Base para la toma de constantes, movilización y apoyo en cuidados básicos." },
-        { n:"02", nombre:"Técnicas básicas de enfermería", desc:"Procedimientos esenciales: higiene, movilización, administración de medicación y control de constantes.", practica:"Actúas con criterio profesional y seguridad en el cuidado diario del paciente." },
-        { n:"03", nombre:"Higiene del medio hospitalario y limpieza de material", desc:"Protocolos de esterilización, desinfección y prevención de infecciones.", practica:"Preparas material estéril, desinfectas superficies y gestionas residuos sanitarios." },
-        { n:"04", nombre:"Comunicación y relaciones en el equipo de salud", desc:"Habilidades para relacionarte con pacientes, familias y equipo sanitario.", practica:"Acoges al paciente, transmites información al equipo y acompañas a familiares." },
-        { n:"05", nombre:"Primeros auxilios", desc:"RCP, atención a heridas, inmovilización y soporte vital básico.", practica:"Reaccionas con seguridad ante urgencias junto al equipo sanitario." },
-        { n:"FOL", nombre:"Formación y Orientación Laboral", desc:"Orientación sobre salidas profesionales tanto en empleo público como en centros privados.", practica:"Casos reales: distintos casos según las bolsas de empleo público, opciones en oposiciones y cómo acceder a clínicas privadas en los diferentes empleos a los que te prepara el grado." }
+        { n:"01", nombre:"Gestión de la documentación jurídica y empresarial", desc:"Documentación legal y administrativa que exigen los procesos empresariales.", practica:"Manejas contratos, escrituras, poderes y documentación mercantil que circula en cualquier empresa." },
+        { n:"02", nombre:"Recursos humanos y RSC", desc:"Gestión de personas, procesos de selección, formación y responsabilidad social.", practica:"Participas en procesos de selección, diseño de planes formativos y políticas de responsabilidad social." },
+        { n:"03", nombre:"Ofimática y proceso de la información", desc:"Office, Power BI, bases de datos y gestión digital de información empresarial.", practica:"Trabajas con Excel avanzado, Power BI y gestión documental profesional." },
+        { n:"04", nombre:"Proceso integral de la actividad comercial", desc:"Ciclo comercial completo: desde el pedido hasta el cobro, con contabilidad básica.", practica:"Gestionas albaranes, facturas, cobros y pagos en un ciclo empresarial completo." },
+        { n:"05", nombre:"Comunicación y atención al cliente", desc:"Comunicación profesional oral y escrita, atención al cliente interno y externo.", practica:"Resuelves casos reales de atención al cliente, quejas y reclamaciones." },
+        { n:"06", nombre:"Itinerario personal para la empleabilidad I", desc:"Orientación al empleo, competencias profesionales y plan de carrera.", practica:"Construyes tu plan personal de empleo y competencias." },
+        { n:"07", nombre:"Inglés para los negocios", desc:"Vocabulario y comunicación en inglés aplicado al entorno empresarial.", practica:"Practicas inglés en situaciones reales de negocio y correspondencia comercial." }
       ]
     },
     {
-      curso: "Segundo semestre",
+      curso: "Segundo curso",
       items: [
-        { n:"06", nombre:"Promoción de la salud y apoyo psicológico al paciente", desc:"Hábitos saludables y soporte emocional al paciente.", practica:"Acompañas al paciente y a su entorno en situaciones delicadas." },
-        { n:"07", nombre:"Operaciones administrativas y documentación sanitaria", desc:"Historiales clínicos, informes y sistemas de gestión hospitalaria.", practica:"Manejas las herramientas de gestión reales de los centros sanitarios." },
-        { n:"08", nombre:"El auxiliar de enfermería ante situaciones de emergencia", desc:"Protocolos de actuación en urgencias hospitalarias.", practica:"Actúas con seguridad en situaciones de alta tensión junto al equipo." },
-        { n:"09", nombre:"Empresa e iniciativa emprendedora", desc:"Organización de la empresa sanitaria y opciones de emprendimiento.", practica:"Entiendes qué opciones tienes para desarrollar tu propio proyecto profesional." }
-      ]
-    },
-    {
-      curso: "Tercer semestre",
-      items: [
-        { n:"FCT", nombre:"Formación en Centros de Trabajo", desc:"440 horas de prácticas al final del ciclo. CCC se encarga de buscar y asignar un centro priorizando los de tu zona geográfica.", practica:"Podrás hacerlas en hospitales, clínicas privadas, residencias de mayores, centros de salud o en atención domiciliaria." }
+        { n:"08", nombre:"Gestión financiera", desc:"Análisis económico-financiero, tesorería, financiación e inversión empresarial.", practica:"Elaboras presupuestos, planes de tesorería y analizas la salud financiera de empresas reales." },
+        { n:"09", nombre:"Contabilidad y fiscalidad", desc:"Contabilidad completa, obligaciones fiscales y tributación empresarial.", practica:"Llevas la contabilidad de casos reales y preparas declaraciones tributarias." },
+        { n:"10", nombre:"Gestión logística y comercial", desc:"Cadena de suministro, compras, almacenamiento y estrategia comercial.", practica:"Gestionas procesos logísticos y comerciales integrados." },
+        { n:"11", nombre:"Simulación empresarial", desc:"Creación y gestión virtual de una empresa en todas sus áreas durante un curso completo.", practica:"Diriges una empresa simulada con todas las áreas funcionales coordinadas." },
+        { n:"12", nombre:"Inglés profesional GS", desc:"Inglés de nivel profesional aplicado a entornos de Grado Superior.", practica:"Trabajas con documentos y comunicaciones empresariales en inglés avanzado." },
+        { n:"13", nombre:"Digitalización aplicada a los sectores productivos", desc:"Transformación digital aplicada a las áreas administrativa y financiera.", practica:"Implementas soluciones digitales en procesos administrativos reales." },
+        { n:"14", nombre:"Sostenibilidad aplicada al sistema productivo", desc:"Principios de sostenibilidad y ESG aplicados al entorno empresarial.", practica:"Integras criterios de sostenibilidad en procesos empresariales." },
+        { n:"15", nombre:"Itinerario personal para la empleabilidad II", desc:"Preparación para la incorporación al mundo laboral.", practica:"Diseñas tu plan de inserción laboral y marca personal profesional." },
+        { n:"16", nombre:"Proyecto intermodular", desc:"Proyecto final integrador donde aplicas todos los conocimientos del ciclo.", practica:"Desarrollas un proyecto empresarial completo que integra todas las competencias del título." },
+        { n:"FOL", nombre:"Formación y Orientación Laboral", desc:"Marco legal del trabajo, derechos laborales y acceso al mercado administrativo-financiero.", practica:"Casos reales: cómo preparar oposiciones administrativas y cómo acceder a asesorías y departamentos financieros privados." },
+        { n:"FCT", nombre:"Formación en Centros de Trabajo", desc:"500 horas de prácticas al final del ciclo. CCC se encarga de buscar y asignar un centro priorizando los de tu zona geográfica.", practica:"Podrás hacerlas en empresas privadas, despachos profesionales, consultoras, departamentos administrativos o empresas de servicios." }
       ]
     }
   ],
@@ -289,69 +333,39 @@ const CONFIG = {
      Si un grado no tiene ventajas, quita las páginas de `pages`.
   ──────────────────────────────────────────────────────────── */
   ventajas: [
-    /* ── [0] CFC — página p7 ─────────────────────────────── */
+    /* ── [0] Power BI + Excel Avanzado — página p7 ──────────── */
     {
-      /* Sección/cabecera de la página */
       sec_label: "Formación complementaria incluida",
       titulo_h1: "Sales con",
       titulo_h1_span: "Ventaja",
-      intro: "<b>Sales al mercado sanitario con ventaja real frente a otros candidatos.</b><br> Además del título oficial, esta formación incluye certificaciones y contenidos adicionales que mejoran tu posición en bolsa pública y tu empleabilidad desde el primer día.",
+      intro: "<b>Sales al mercado laboral con ventaja real frente a otros candidatos.</b><br> Además del título oficial, esta formación incluye la preparación para la certificación oficial de Microsoft en Power BI y el dominio avanzado de Excel, dos herramientas imprescindibles en cualquier departamento administrativo o financiero moderno.",
 
-      /* Cartela */
-      badge: "+ 50 créditos",
+      badge: "Preparación oficial",
       tipo: "incluido",
       logos: [
-        { src: "p7_logo1_1", alt: "Logo CFC" },
-        { src: "p7_logo1_2", alt: "Logo acreditadora" }
+        { src: "p7_logo1_1", alt: "Logo Microsoft" },
+        { src: "p7_logo1_2", alt: "Logo Power BI" },
+        { src: "p7_logo1_3", alt: "Logo Excel" }
       ],
-      nombre: "Cursos de Formación Continuada (CFC)",
-      subtitulo: "Suma puntos en bolsa pública y mejora tu empleabilidad en sanidad",
-      descripcion: `Los Cursos de Formación Continuada son clave para acceder a un puesto de trabajo en sanidad. En un mercado cada vez más competitivo, se han convertido en un requisito imprescindible para mejorar tu posición en bolsas públicas de empleo.`,
+      nombre: "Cursos de Certificación Power BI + Excel Avanzado",
+      subtitulo: "Domina las dos herramientas más demandadas en departamentos financieros",
+      descripcion: `Convierte los datos en información visual con Power BI y domina Excel a nivel profesional. Prepárate para la certificación oficial de Microsoft en Power BI mientras avanzas en tu control de Excel, la herramienta imprescindible en el día a día empresarial.`,
       beneficios: [
-        { titulo: "Mejores oportunidades de empleo",  texto: "Obtendrás puntos adicionales en bolsas sanitarias" },
-        { titulo: "Diferénciate del resto",           texto: "Una mayor puntuación te permite acceder antes a ofertas" },
-        { titulo: "Formación acreditada",             texto: "Cursos reconocidos que refuerzan tu perfil profesional" }
+        { titulo: "Certificación Microsoft Power BI", texto: "Prepárate para la certificación oficial mientras estudias" },
+        { titulo: "Excel Avanzado",                    texto: "Fórmulas, tablas dinámicas, macros y análisis de datos" },
+        { titulo: "IA aplicada a negocio",             texto: "Funcionalidades de inteligencia artificial integradas en Power BI" }
       ],
-      claim: "Incluye cursos CFC baremables hasta completar 50 créditos",
+      claim: "Incluye preparación para la certificación oficial Microsoft Power BI",
       ejemplos: [
-        "Soporte vital básico", "Soporte vital avanzado",
-        "Atención integral al paciente geriátrico", "Trastornos motores en geriatría",
-        "Cuidados en Alzheimer", "Nutrición en distintas etapas"
+        "Modelado de datos", "Consultas con DAX",
+        "Visualizaciones interactivas", "Tablas dinámicas avanzadas",
+        "Macros y VBA", "Análisis de datos empresariales"
       ],
 
-      /* Imagen apaisada inferior y pie de foto (ambos opcionales) */
       foto_slot: "p7_sales1_foto",
-      pre_foto:  "Con CFC sumas puntos en las bolsas públicas de todos los servicios de salud de las comunidades autónomas."
-    },
-
-    /* ── [1] GESDEN — página p7d ─────────────────────────── */
-    {
-      sec_label: "Formación complementaria incluida",
-      titulo_h1: "Sales con",
-      titulo_h1_span: "+ Ventaja",
-      intro: "<b>Una ventaja técnica real frente a otros candidatos.</b><br> Esta certificación te pone al día con herramientas que ya se usan en clínicas reales, para que llegues al primer puesto con soltura digital desde el primer día.",
-
-      badge: "Licencia incluida",
-      tipo: "incluido",
-      logos: [ { src: "p7_logo3_1", alt: "Logo GESDEN ONE" } ],
-      nombre: "Certificación GESDEN ONE",
-      subtitulo: "Trabaja con el software que utilizan las clínicas reales",
-      descripcion: `Aprende a utilizar GESDEN, uno de los software de gestión más utilizados en clínicas sanitarias en España. Trabajarás con herramientas reales para gestionar pacientes, agendas y tratamientos.`,
-      beneficios: [
-        { titulo: "", texto: "Gestión de pacientes e historia clínica" },
-        { titulo: "", texto: "Organización de agendas y citas" },
-        { titulo: "", texto: "Apoyo en tratamientos y facturación" },
-        { titulo: "", texto: "Uso de herramientas digitales sanitarias" }
-      ],
-      claim: null,
-      ejemplos: null,
-
-      foto_slot: "p7_sales2_foto",
-      pre_foto:  "Trabajas desde el primer día con el mismo software que se usa en las clínicas reales GESDEN ONE."
+      pre_foto:  "Las dos herramientas más demandadas en el día a día de cualquier departamento administrativo o financiero."
     }
-    /* ── [2] — página p7e ────────────────────────────────────
-       Añade un tercer objeto aquí y 'p7e' a CONFIG.pages si un
-       grado necesita una tercera ventaja. */
+    /* AFI solo usa la ventaja [0]. P7d y P7e no se activan en CONFIG.pages. */
   ],
 
   /* ── PRE-CAPTIONS DE IMÁGENES APAISADAS INFERIORES ───────
@@ -359,9 +373,9 @@ const CONFIG = {
      al pie de cada página. Estilo italic gris unificado.
      Las ventajas (P7/P7d/P7e) tienen su propio campo `pre_foto`
      dentro de cada objeto del array `ventajas`. */
-  p6b_pre_foto: "Aprendes en el mismo entorno donde vas a trabajar mañana.",
-  p8_pre_foto:  "Un campus virtual con clases en directo y tutorizado por profesionales del sector para resolver todas tus dudas.",
-  p9b_pre_foto: "Un centro con tutores especializados, clases en directo y acompañamiento real durante toda tu formación.",
+  p6b_pre_foto: "En 500 horas trabajas con procesos reales de empresa.",
+  p8_pre_foto:  "El campus presencial en pleno corazón empresarial de Madrid.",
+  p9b_pre_foto: "Un centro con tutores especializados, aulas modernas y vocación empresarial.",
 
   /* ── PAQUETE FORMATIVO ─────────────────────────────────
      Se muestra en P3 como cartela-resumen de "lo incluido
@@ -371,33 +385,34 @@ const CONFIG = {
      Todos se pintan con el badge "INCLUIDO" implícito. */
   paquete: {
     destacados: [
-      { titulo: "FP Oficial TCAE",      subtitulo: "Título MEC · 1.400h" },
-      { titulo: "Prácticas en empresa", subtitulo: "440h · Centros sanitarios" }
+      { titulo: "FP Oficial AFI",       subtitulo: "Título MEC · 2.000h" },
+      { titulo: "Prácticas en empresa", subtitulo: "500h · Red de +10.500 empresas" }
     ],
     extras: [
-      { titulo: "Curso CFC",                   subtitulo: "+ 50 créditos bolsa pública" },
-      { titulo: "Certificación GESDEN",        subtitulo: "Licencia incluida" },
+      { titulo: "Power BI",                    subtitulo: "Certificación oficial Microsoft" },
+      { titulo: "Excel Avanzado",              subtitulo: "Dominio profesional" },
       { titulo: "Microsoft Azure AI",          subtitulo: "Fundamentos de IA" },
       { titulo: "Habilidades Profesionales",   subtitulo: "Competencias transversales" },
       { titulo: "Talent e-Talks",              subtitulo: "Masterclass de expertos" }
     ]
   },
 
-  /* ── 10. METODOLOGÍA ────────────────────────────────── */
+  /* ── 10. METODOLOGÍA ──────────────────────────────────
+     AFI es presencial en Madrid — contenido adaptado. */
   metod_items: [
-    { n:"01", t:"Aprende a tu ritmo", d:"Organiza tu estudio a tu ritmo con una formación 100% online y avanza sin horarios fijos, adaptándolo a tu día a día." },
-    { n:"02", t:"Clases en directo", d:"Clases en directo con tutores para resolver dudas en el momento y ayudarte a avanzar sin bloqueos." },
-    { n:"03", t:"Clases grabadas", d:"Todas las sesiones quedan grabadas para que puedas volver a ellas cuando lo necesites y no perder el ritmo del curso." },
-    { n:"04", t:"Tutorías grupales", d:"Tutorías grupales para resolver dudas, apoyarte en otros alumn@s y avanzar con continuidad en el curso." },
-    { n:"05", t:"Materiales de expertos", d:"Contenidos prácticos basados en situaciones reales, creados por profesionales sanitarios en activo." },
-    { n:"06", t:"FCT gestionada por CCC", d:"CCC gestiona tus prácticas en centros sanitarios para que completes tu formación con experiencia profesional real." }
+    { n:"01", t:"Aulas reales en Madrid",    d:"Campus moderno en Julián Camarillo (Albasanz 9 · San Sotero 3). Aulas equipadas para simular entornos empresariales reales." },
+    { n:"02", t:"Profesores con experiencia",d:"Profesorado con trayectoria real en empresa, consultoras y departamentos administrativos." },
+    { n:"03", t:"Simulación empresarial",    d:"Trabajas con casos reales de gestión, contabilidad y finanzas empresariales desde el primer día." },
+    { n:"04", t:"Masterclass con profesionales", d:"Ciclo de Talent e-Talks con expertos del sector para conocer de primera mano la realidad laboral." },
+    { n:"05", t:"Materiales y herramientas", d:"Acceso a Power BI, Excel avanzado, software contable y plataformas profesionales del día a día empresarial." },
+    { n:"06", t:"FCT gestionada por CCC",    d:"CCC se encarga de gestionar tus 500h de prácticas en una red de más de 10.500 empresas colaboradoras." }
   ],
 
   /* ── 11. POR QUÉ CCC ────────────────────────────────── */
   ccc_cifras: [
     { n:"+85", l:"años formando profesionales en España" },
     { n:"+3M", l:"alumnos que han pasado por nuestras formaciones" },
-    { n:"+10.500", l:"entidades colaboradoras para la realización de prácticas" }
+    { n:"+10.500", l:"empresas colaboradoras para la realización de prácticas" }
   ],
   /* ── VIDEO QR ───────────────────────────────────────── */
   /* URL del vídeo específico del curso. Si no hay vídeo propio,
@@ -418,54 +433,59 @@ const CONFIG = {
   ccc_body: "CCC lleva más de 85 años formando a los profesionales que hacen funcionar España. Somos el centro con mayor experiencia en formación a distancia del país, con un método probado, tutores especializados y una red de empresas que te abre puertas desde el primer día.",
 
   /* ── 12. CONTACTO ───────────────────────────────────── */
-  cta_h2:   "Da el paso \nhacia tu futuro \nen el sector sanitario.",
-  cta_sub:  "Solicita información y recibe asesoramiento personalizado para empezar tu formación en TCAE.<br><br> Nuestros asesores te acompañan desde el primer contacto hasta que encuentras tu primer empleo.",
+  cta_h2:   "Da el paso \nhacia tu futuro \nprofesional en empresa.",
+  cta_sub:  "Solicita información y recibe asesoramiento personalizado para empezar tu formación en AFI.<br><br> Nuestros asesores te acompañan desde el primer contacto hasta que encuentras tu primer empleo.",
   cta_web:  "www.cursosccc.com",
   cta_tel:  "900 123 456",
   cta_mail: "info@cursosccc.com",
 
+  /* ══════════════════════════════════════════════════════
+     TEXTOS DE PÁGINAS (configurables por grado)
+     Antes estaban hardcoded en el HTML. Ahora cada grado
+     los controla desde aquí.
+     ══════════════════════════════════════════════════════ */
 
-  
   /* ── P3 ── */
-  p3_title:    "Tu camino para <span>trabajar en sanidad</span> empieza aquí",
-  p3_bajada:   "En poco tiempo puedes pasar de empezar desde cero a desenvolverte con seguridad en un entorno sanitario real.",
-  p3_pre_foto: "En poco más de un año, podrías ser tú trabajando en el entorno sanitario.",
+  p3_title:    "Tu camino para <span>trabajar en empresa</span> empieza aquí",
+  p3_bajada:   "En poco tiempo puedes pasar de empezar desde cero a desenvolverte con seguridad en un entorno empresarial real.",
+  p3_pre_foto: "En poco más de dos años, podrías ser tú trabajando en un departamento administrativo o financiero.",
 
   /* ── P5 ── */
-  p5_puente: "Estas cifras reflejan la alta demanda de profesionales sanitarios en distintos entornos. Como TCAE, podrás desarrollar tu carrera en áreas como:",
+  p5_puente:   "Estas cifras reflejan la alta demanda de profesionales administrativos y financieros. Como Técnico Superior en AFI, podrás desarrollar tu carrera en áreas como:",
 
   /* ── P6b (prácticas FCT) ── */
-  p6b_title:              "Prácticas reales en <span>centros sanitarios</span> durante tu formación",
-  p6b_intro:              "Realiza prácticas en centros sanitarios y aplica lo aprendido en entornos reales desde el primer momento.",
+  p6b_title:              "Prácticas reales en <span>empresas y despachos</span> durante tu formación",
+  p6b_intro:              "Realiza prácticas en empresas colaboradoras y aplica lo aprendido en entornos reales desde el primer momento.",
   p6b_actividades_titulo: "Durante tus prácticas participarás en procesos como:",
   p6b_actividades: [
-    "Apoyo en la higiene y cuidado de pacientes",
-    "Preparación de material sanitario y asistencia en intervenciones",
-    "Toma de constantes vitales y control del estado del paciente",
-    "Acompañamiento y atención al paciente en su vida diaria",
-    "Colaboración con el equipo sanitario en la atención integral"
+    "Gestión administrativa y documental en departamentos reales",
+    "Contabilidad, facturación y seguimiento financiero",
+    "Procesos comerciales, RRHH y atención al cliente",
+    "Uso de ERP, Power BI y herramientas empresariales",
+    "Colaboración con el equipo en la gestión diaria de la empresa"
   ],
-  p6b_frase_cierre:   "\"Aprenderás haciendo, en un entorno real, acompañado por profesionales del sector.\"",
+  p6b_frase_cierre: "\"Aprenderás haciendo, en un entorno real, acompañado por profesionales del sector.\"",
   p6b_centros_titulo: "Centros donde realizarás tus prácticas",
   p6b_centros: [
-    "Hospitales públicos",
-    "Clínicas privadas",
-    "Residencias de mayores",
-    "Centros de salud",
-    "Atención domiciliaria"
+    "Asesorías y gestorías",
+    "Consultoras",
+    "Departamentos financieros",
+    "Empresas de servicios",
+    "Despachos profesionales"
   ],
 
   /* ── P7c (impulsa tu perfil) ── */
   p7c_subtitulo: "Una formación que va más allá del temario oficial para prepararte para el mundo real",
-  p7c_intro:     "Además de tu formación como TCAE, accederás a contenidos complementarios diseñados para mejorar tu empleabilidad y ayudarte a destacar en el mercado laboral.",
+  p7c_intro:     "Además de tu formación en AFI, accederás a contenidos complementarios diseñados para mejorar tu empleabilidad y ayudarte a destacar en el mercado laboral.",
 
-  /* ── P9b (requisitos · GRADO MEDIO) ── */
-  p9b_req_intro: "<b>Acceder a esta FP es más fácil de lo que piensas.</b> <br> Para acceder al Grado Medio de TCAE es necesario cumplir <strong>al menos uno</strong> de estos requisitos. No hay nota de corte.",
+  /* ── P9b (requisitos de acceso · GRADO SUPERIOR) ── */
+  p9b_req_intro: "<b>Acceder a esta FP es más fácil de lo que piensas.</b> <br> Para acceder al Grado Superior de Administración y Finanzas es necesario cumplir <strong>al menos uno</strong> de estos requisitos. No hay nota de corte.",
 
   /* ── P10b (becas hero) ── */
-  p10b_hero_sub: "Estudiar el TCAE puede costar menos de lo que crees.<br>Consulta a tu asesora qué ayuda se adapta a tu situación.",
+  p10b_hero_sub: "Estudiar AFI puede costar menos de lo que crees.<br>Consulta a tu asesora qué ayuda se adapta a tu situación.",
 
-/* Imágenes del centro CCC embebidas */
+
+  /* Imágenes del centro CCC embebidas */
   imgs_ccc: {
     logo_ccc_svg: "logos/comunes/logo_ccc_svg.svg",
     logo_ccc_svg_blanco: "logos/comunes/logo_ccc_svg_blanco.svg",
@@ -487,15 +507,15 @@ const CONFIG = {
 
   /* ── 14. BECAS ──────────────────────────────────────── */
 
-  /* ── REQUISITOS DE ACCESO ───────────────────────────── */
+  /* ── REQUISITOS DE ACCESO — GRADO SUPERIOR ──────────── */
   requisitos: [
-    "Tener al menos 16 años (o cumplirlos en el año de inicio)",
-    "Título de Graduado en ESO o equivalente",
-    "Título Profesional Básico (FP Básica)",
-    "Título de Técnico o Técnico Auxiliar",
-    "Haber superado el 2.º curso de BUP",
-    "Prueba de acceso a ciclos formativos de Grado Medio",
-    "Prueba de acceso a la universidad para mayores de 25 años"
+    "Título de Bachillerato (LOMCE, LOE o LOGSE)",
+    "Título de Técnico (FP de Grado Medio) — acceso directo",
+    "Título de Técnico Superior o Técnico Especialista",
+    "Título universitario o equivalente",
+    "Prueba de acceso a ciclos formativos de Grado Superior (18 años cumplidos)",
+    "Prueba de acceso a la universidad para mayores de 25 años",
+    "Prueba de acceso para mayores de 45 años"
   ],
   requisitos_nota: "No necesitas nota de corte. En CCC el acceso es flexible: solo debes cumplir uno de los requisitos anteriores. Empiezas cuando tú decides, sin depender de plazas limitadas.",
 
@@ -527,8 +547,8 @@ const CONFIG = {
   /* ── 13. IMÁGENES ───────────────────────────────────── */
   /* portada: pon 1, 2, 3 o 4 URLs. El grid se adapta solo. */
   /* Con imagen real: URL completa. Sin imagen: string vacío o elimina el elemento. */
-  /* imgs_prefix: prefijo para construir rutas automáticamente (ej. "TCAE" → fotos/TCAE_p1_portada.jpg) */
-  imgs_prefix: "TCAE",
+  /* imgs_prefix: prefijo para construir rutas automáticamente (ej. "AFI" → fotos/AFI_p1_portada.jpg) */
+  imgs_prefix: "AFI",
 
   imgs: {
     /* ═══════════════════════════════════════════════════════
@@ -574,15 +594,23 @@ const CONFIG = {
     p3_foto:   "p3_foto.jpg",
 
     /* P7 — LOGOS SALES CON VENTAJA (slot → archivo en logos/) */
-    p7_logo1_1: "logos/cfc.png",          /* CFC */
-    p7_logo1_2: "logos/saludmadrid.png",  /* SaludMadrid (cartela CFC) */
-    p7_logo3_1: "logos/gesden.png",       /* GESDEN */
+    /* P7 — VENTAJA ÚNICA (Power BI + Excel) — 3 logos */
+    p7_logo1_1: "logos/microsoft.png",   /* Logo Microsoft */
+    p7_logo1_2: "logos/powerbi.png",     /* Logo Power BI */
+    p7_logo1_3: "logos/excel.jpeg",      /* Logo Excel */
 
-    /* P7b — especialización geriatría */
-    p7b_foto: "p7b_foto.png"
+    /* P7b / P7b2 / P7b3 — FORMACIÓN OPCIONAL
+       Cada opcional tiene foto apaisada inferior (foto_slot) y
+       logo de partner/certificadora junto al título (logo_slot).
+       Los logos los tiras en la carpeta logos/ con estos nombres: */
+    p7b_foto:  "p7b_foto.jpg",   /* Marketing Digital y SEO */
+    p7b_logo:  "logos/ga4.png",   /* Logo GA4 (Google Analytics 4) */
+    p7b2_foto: "p7b2_foto.jpg",  /* TSU Economía UCAM */
+    p7b2_logo: "logos/ucam.png",  /* Logo UCAM */
+    p7b3_foto: "p7b3_foto.jpg",  /* TSU Marketing UCAM */
+    p7b3_logo: "logos/ucam.png"    /* Logo UCAM (reutiliza el mismo archivo) */
   }
 };
-
 </script>
 
 <style>
