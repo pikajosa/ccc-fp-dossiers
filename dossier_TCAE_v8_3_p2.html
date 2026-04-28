@@ -3756,6 +3756,7 @@ W.generateQR = function(url, campo) {
 
 
 
+
 (function(){
   const C = CONFIG;
 
@@ -4341,7 +4342,7 @@ function setBgImage(elId, src) {
     var salImgSrc = applyPrefix(C.imgs['p5_salida' + (salIdx + 1)] || sal.img || '');
     const isBlankSal = !salImgSrc || salImgSrc.trim() === '' || salImgSrc.indexOf('FOTO_') === 0;
     const foto = '<div class="salida-foto" style="position:relative;height:38mm;background:' + sal.ph_color + ';">' +
-      (!isBlankSal ? '<img src="' + salImgSrc + '" alt="' + sal.nombre + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.opacity=0;var ns=this.nextElementSibling;if(ns)ns.style.opacity=1" onload="var ns=this.nextElementSibling;if(ns)ns.style.opacity=0">' : '') +
+      (!isBlankSal ? '<img src="' + salImgSrc + '" alt="' + sal.nombre + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="' + buildImgOnError(salImgSrc, 'this.style.opacity=0;var ns=this.nextElementSibling;if(ns)ns.style.opacity=1') + '" onload="var ns=this.nextElementSibling;if(ns)ns.style.opacity=0">' : '') +
       '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px;color:#fff;font-size:7pt;font-weight:600;text-align:center;pointer-events:none;opacity:' + (isBlankSal?1:0) + ';transition:opacity .3s;">' +
         '<div style="font-size:18pt;line-height:1;margin-bottom:2px;">📷</div>' +
         '<strong>' + sal.nombre + '</strong>' +
@@ -4834,6 +4835,7 @@ function setBgImage(elId, src) {
 
 
 })();
+
 
 
 
