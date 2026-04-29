@@ -3757,6 +3757,7 @@ W.generateQR = function(url, campo) {
 
 
 
+
 (function(){
   const C = CONFIG;
 
@@ -4072,36 +4073,51 @@ function setBgImage(elId, src) {
 
   /* Genera el atributo onerror para una imagen con fallback de extensiones.
      onFinalFail: código JS ejecutado cuando ninguna extensión funciona. */
-  function buildImgOnError(src, onFinalFail) {
+  function buildImgOnError(src, onFinalFail, fallbackSrc) {
     if (!src) return onFinalFail || '';
-    /* Detectar extensión actual */
     var m = src.match(/\.([a-zA-Z0-9]+)$/);
     if (!m) return onFinalFail || '';
     var currentExt = '.' + m[1].toLowerCase();
     var base = src.substring(0, src.length - m[0].length);
-    /* Lista de extensiones a probar, sin la actual, en orden */
     var fallbacks = IMG_EXTENSIONS.filter(function(e) { return e !== currentExt; });
-    /* Si la extensión no es una conocida (ej. SVG), no se aplica fallback */
     if (IMG_EXTENSIONS.indexOf(currentExt) === -1) return onFinalFail || '';
-    /* Construir cadena de onerror encadenada.
-       En cada intento, al fallar se cambia el src a la siguiente extensión.
-       Cuando se agotan, se ejecuta onFinalFail. */
     var fbsArr = "[" + fallbacks.map(function(e){ return "'" + e + "'"; }).join(',') + "]";
     var final = "this.onerror=null;" + (onFinalFail || '');
+
+    /* Bloque de fallback a ruta alternativa (modalidad → grado). Solo si fallbackSrc difiere. */
+    var fallbackBlock = final;
+    if (fallbackSrc && fallbackSrc !== src) {
+      var fm = fallbackSrc.match(/\.([a-zA-Z0-9]+)$/);
+      if (fm && IMG_EXTENSIONS.indexOf('.' + fm[1].toLowerCase()) !== -1) {
+        var fbBase = fallbackSrc.substring(0, fallbackSrc.length - fm[0].length);
+        var fbExt = '.' + fm[1].toLowerCase();
+        var fbExts = [fbExt].concat(IMG_EXTENSIONS.filter(function(e){ return e !== fbExt; }));
+        var fb2Arr = "[" + fbExts.map(function(e){ return "'" + e + "'"; }).join(',') + "]";
+        fallbackBlock = "if(!this.dataset.fbStage2){this.dataset.fbStage2='1';this.dataset.fbIdx2='0';this.onload=function(){this.style.opacity=1;};this.src='" + fbBase + "'+" + fb2Arr + "[0];}" +
+                        "else{var j=parseInt(this.dataset.fbIdx2)+1;var fb2=" + fb2Arr + ";if(j<fb2.length){this.dataset.fbIdx2=j.toString();this.onload=function(){this.style.opacity=1;};this.src='" + fbBase + "'+fb2[j];}else{" + final + "}}";
+      }
+    }
+
     return "if(!this.dataset.fbIdx){this.dataset.fbIdx='0';}" +
            "var i=parseInt(this.dataset.fbIdx);" +
            "var fbs=" + fbsArr + ";" +
-           "if(i<fbs.length){this.dataset.fbIdx=(i+1).toString();this.onload=function(){this.style.opacity=1;};this.src='" + base + "'+fbs[i];}" +
-           "else{" + final + "}";
+           "if(i<fbs.length&&!this.dataset.fbStage2){this.dataset.fbIdx=(i+1).toString();this.onload=function(){this.style.opacity=1;};this.src='" + base + "'+fbs[i];}" +
+           "else{" + fallbackBlock + "}";
   }
 
-  function renderImgOrPh(src, alt, imgClass, phClass, phColor) {
+  function renderImgOrPh(src, alt, imgClass, phClass, phColor, slot) {
     /* ── aplicar prefijo si existe y la ruta no es explícita ── */
-    src = applyPrefix(src);
+    var rawSrc = src;
+    src = applyPrefix(src, slot);
+    /* Si el slot admite variante de modalidad, calcular ruta sin sufijo como fallback */
+    var fallbackSrc = null;
+    if (slot && (C.imgs_modalidad_slots || []).indexOf(slot) !== -1 && C.modalidad_suffix) {
+      fallbackSrc = applyPrefixBase(rawSrc);
+    }
     const isBlank = !src || src.trim() === '' || src.indexOf('FOTO_') === 0;
     /* overlay visible only when blank; hidden (opacity:0) when real image loads */
     const overlayOpacity = isBlank ? '1' : '0';
-    var onErr = buildImgOnError(src, 'this.style.opacity=0;var ns=this.nextElementSibling;if(ns)ns.style.opacity=1;');
+    var onErr = buildImgOnError(src, 'this.style.opacity=0;var ns=this.nextElementSibling;if(ns)ns.style.opacity=1;', fallbackSrc);
     const imgTag = !isBlank
       ? '<img src="' + src + '" alt="' + alt + '" loading="lazy" ' +
           'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" ' +
@@ -4123,7 +4139,26 @@ function setBgImage(elId, src) {
   /* ── applyPrefix: helper centralizado para aplicar imgs_prefix a una ruta ──
      Si la ruta ya empieza con fotos/, logos/ o data:, se devuelve tal cual.
      En otro caso se construye fotos/{prefix}_{ruta}. */
-  function applyPrefix(src) {
+  function applyPrefix(src, slot) {
+    if (!src) return src;
+    var prefix = C.imgs_prefix || '';
+    if (!prefix) return src;
+    if (src.startsWith('fotos/') || src.startsWith('logos/') || src.startsWith('data:')) return src;
+    /* Si el slot admite variante de modalidad y hay sufijo definido,
+       devolver la ruta con sufijo (TCAE_PR_p7b_foto.png).
+       Si esa ruta no existe en disco, buildImgOnError caerá al fallback
+       sin sufijo (TCAE_p7b_foto.png) y, si tampoco, a otras extensiones. */
+    var suffix = C.modalidad_suffix || '';
+    var modSlots = C.imgs_modalidad_slots || [];
+    if (suffix && slot && modSlots.indexOf(slot) !== -1) {
+      return 'fotos/' + prefix + '_' + suffix + '_' + src;
+    }
+    return 'fotos/' + prefix + '_' + src;
+  }
+
+  /* Devuelve la ruta SIN sufijo de modalidad — usado como fallback
+     en los slots que admiten variante de modalidad. */
+  function applyPrefixBase(src) {
     if (!src) return src;
     var prefix = C.imgs_prefix || '';
     if (!prefix) return src;
@@ -4132,15 +4167,20 @@ function setBgImage(elId, src) {
   }
 
   /* ── renderBgImg: imagen de fondo en wrap con overlay + placeholder ── */
-  function renderBgImg(wrapId, src, alt) {
+  function renderBgImg(wrapId, src, alt, slot) {
     var wrap = $(wrapId);
     if (!wrap) return;
     /* ── aplicar prefijo si existe y la ruta no es explícita ── */
-    src = applyPrefix(src);
+    var rawSrc = src;
+    src = applyPrefix(src, slot);
+    var fallbackSrc = null;
+    if (slot && (C.imgs_modalidad_slots || []).indexOf(slot) !== -1 && C.modalidad_suffix) {
+      fallbackSrc = applyPrefixBase(rawSrc);
+    }
     var isBlank = !src || src.trim() === '' || src.indexOf('FOTO_') === 0;
     var html = '';
     if (!isBlank) {
-      var onErr = buildImgOnError(src, 'this.style.opacity=0;');
+      var onErr = buildImgOnError(src, 'this.style.opacity=0;', fallbackSrc);
       html += '<img src="' + src + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;" alt="' + alt + '" onerror="' + onErr + '" onload="this.style.opacity=1">';
     }
     html += '<div class="img-overlay-bottom" style="z-index:1;"></div>';
@@ -4282,7 +4322,7 @@ function setBgImage(elId, src) {
   (function(){
     var wrap = document.getElementById('p3-foto1-wrap');
     if (!wrap) return;
-    var src = applyPrefix(C.imgs && C.imgs.p3_foto);
+    var src = applyPrefix(C.imgs && C.imgs.p3_foto, 'p3_foto');
     if (src && src.indexOf('FOTO_') !== 0) {
       wrap.innerHTML = '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;object-position:left center;" alt="Formación sanitaria">';
     }
@@ -4339,7 +4379,7 @@ function setBgImage(elId, src) {
 
   s('p5-salidas', C.sector_salidas.map(function(sal, salIdx) {
     /* Slot pX_salidaN del imgs — sal.img como fallback legacy */
-    var salImgSrc = applyPrefix(C.imgs['p5_salida' + (salIdx + 1)] || sal.img || '');
+    var salImgSrc = applyPrefix(C.imgs['p5_salida' + (salIdx + 1)] || sal.img || '', 'p5_salida' + (salIdx + 1));
     const isBlankSal = !salImgSrc || salImgSrc.trim() === '' || salImgSrc.indexOf('FOTO_') === 0;
     const foto = '<div class="salida-foto" style="position:relative;height:38mm;background:' + sal.ph_color + ';">' +
       (!isBlankSal ? '<img src="' + salImgSrc + '" alt="' + sal.nombre + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="' + buildImgOnError(salImgSrc, 'this.style.opacity=0;var ns=this.nextElementSibling;if(ns)ns.style.opacity=1') + '" onload="var ns=this.nextElementSibling;if(ns)ns.style.opacity=0">' : '') +
@@ -4835,6 +4875,7 @@ function setBgImage(elId, src) {
 
 
 })();
+
 
 
 
